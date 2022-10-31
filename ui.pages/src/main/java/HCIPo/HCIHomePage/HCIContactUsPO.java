@@ -6,6 +6,7 @@ import Base.SingletonBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 public class HCIContactUsPO extends BasePO {
 
@@ -51,7 +52,6 @@ public class HCIContactUsPO extends BasePO {
     }
 
     public void enterEmail(String email) throws Exception {
-        //2 xpaths have
         WebElement uiEmail = singleton.getDriver().findElement(By.xpath("//input[@name='email-address']"));
         try {
             Log.info("## HCIContactUsPo | enterEmail() ## " + this.getClass().getName());
@@ -80,34 +80,21 @@ public class HCIContactUsPO extends BasePO {
     }
 
     public void enterDrpDwnImA(String imA) throws Exception {
-        //dropdown xpaths
-        WebElement uiDrpDwnImA = singleton.getDriver().findElement(By.xpath("//select[@name='i-am-a']"));
+        WebElement uiDrpDwnImA = singleton.getDriver().findElement(By.name("i-am-a"));
+
         try {
             Log.info("## HCIContactUsPo | enterDrpDwnImA() ## " + this.getClass().getName());
             if (imA.trim().length() != 0) {
-                uiSendKeys(uiDrpDwnImA, imA);
+                Select dropdownImA = new Select(uiDrpDwnImA);
+                dropdownImA.selectByIndex(3);
             }
+
         } catch (NoSuchElementException e) {
             throw new Exception("Failed : enterDrpDwnImA()" + e.getLocalizedMessage());
         }
         Sleep.run(1000);
 
     }
-
-//    public void enterDrpDwnImA() throws Exception {
-//        //dropdown xpaths
-//        WebElement uiDrpDwnImA = singleton.getDriver().findElement(By.xpath("//select[@name='i-am-a']"));
-//        try {
-//            Log.info("## HCIContactUsPo | enterDrpDwnImA() ## " + this.getClass().getName());
-//
-//            uiClick(uiDrpDwnImA);
-//
-//        } catch (NoSuchElementException e) {
-//            throw new Exception("Failed : enterDrpDwnImA()" + e.getLocalizedMessage());
-//        }
-//        Sleep.run(1000);
-//
-//    }
 
     public void enterInsuranceProvider(String insuranceProvider) throws Exception {
         WebElement uiInsuranceProvider = singleton.getDriver().findElement(By.xpath("//input[@name='insurance-provider']"));
